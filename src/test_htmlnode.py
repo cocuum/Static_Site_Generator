@@ -9,13 +9,13 @@ class TestHTMLNode(unittest.TestCase):
             "span",
             "This is a highlighted text in the paragraph",
             None,
-            {"style": "background-color:yellow"}
+            {"style": "background-color:yellow"},
         )
         parent = HTMLNode(
             "p",
             "This is a paragraph",
             [child],
-            None
+            None,
         )
         self.assertEqual(parent.tag, "p")
         self.assertEqual(parent.value, "This is a paragraph")
@@ -23,12 +23,22 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(parent.props, None)
 
     def test_props_to_html(self):
-        node = HTMLNode("a", "Click here", None, {"href": "https://www.test.com"})
-        self.assertEqual(node.props_to_html(), " href=https://www.test.com")
+        node = HTMLNode(
+            "a", 
+            "Click here",
+            None,
+            {"class": "btn", "href": "https://www.test.com"},
+        )
+        self.assertEqual(node.props_to_html(), ' class="btn" href="https://www.test.com"')
     
     def test_repr(self):
-        node = HTMLNode("h1", "This is a paragraph heading")
-        self.assertEqual(repr(node), "HTMLNode(h1, This is a paragraph heading, None, None)")
+        node = HTMLNode(
+            "h1",
+            "This is a paragraph heading",
+            None,
+            {"class": "title"},
+        )
+        self.assertEqual(repr(node), "HTMLNode(h1, This is a paragraph heading, children: None, {'class': 'title'})")
 
     def test_has_children(self):
         child1 = HTMLNode("a", "WA City1", None, {"href": "https://www.city1.com"})
