@@ -128,7 +128,7 @@ class TestHTMLNode(unittest.TestCase):
             leaf.to_html()
         self.assertEqual(
             str(c.exception),
-            "LeafNode must have a value",
+            "invalid HTML: LeafNode must have a value",
         )
     
     def test_missing_tag(self):
@@ -148,7 +148,7 @@ class TestHTMLNode(unittest.TestCase):
             parent.to_html()
         self.assertEqual(
             str(c.exception),
-            "ParentNode must have a tag",
+            "invalid HTML: ParentNode must have a tag",
         )
     
     def test_to_html_with_children(self):
@@ -193,7 +193,7 @@ class TestHTMLNode(unittest.TestCase):
             parent.to_html()
         self.assertEqual(
             str(c.exception),
-            "ParentNode must have children",
+            "invalid HTML: ParentNode must have children",
         )
     
     def test_parent_has_multiple_children(self):
@@ -220,6 +220,20 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(
             parent.to_html(),
             '<ol class="city-list"><li href="https://www.city1.com">WA City1</li><li href="https://www.city2.com">WA City2</li><li href="https://www.city3.com">WA City3</li></ol>',
+        )
+    
+    def test_parent_repr(self):
+        child_node = LeafNode(
+            "span",
+            "child",
+        )
+        parent_node = ParentNode(
+            "div",
+            [child_node],
+        )
+        self.assertEqual(
+            repr(parent_node),
+            "ParentNode(div, children: [LeafNode(span, child, None)], None)",
         )
 
 if __name__ == "__main__":
