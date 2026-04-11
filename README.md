@@ -7,8 +7,8 @@
 1. Markdown files are in the **/content** directory. A _template.html_ file is in the root of the project.
 2. The static site generator (the Python code in **src/**) reads the Markdown files and the template file.
 3. The generator converts the Markdown files to a final HTML file for each page and writes them to the **/public** directory.
-4. We start the built-in Python HTTP server (a separate program, unrelated to the generator) to serve the contents of the **/public** directory on _http://localhost:8888_ (our local machine).
-5. We open a browser and navigate to _http://localhost:8888_ to view the rendered site.
+4. We start the built-in Python HTTP server (a separate program, unrelated to the generator) to serve the contents of the **/public** directory on _[http://localhost:8888](http://localhost:8888)_ (our local machine).
+5. We open a browser and navigate to _[http://localhost:8888](http://localhost:8888)_ to view the rendered site.
 
 ## How the SSG Works
 
@@ -22,7 +22,7 @@ The vast majority of our coding will happen in the src/ directory because almost
     3. Convert each block into a tree of _HTMLNode_ objects. For inline elements (like bold text, links, etc.) we will convert:
         - Raw markdown -> _TextNode_ -> _HTMLNode_
     4. Join all the _HTMLNode_ blocks under one large parent _HTMLNode_ for the pages.
-    5. Use a recursive *to_html()* method to convert the _HTMLNode_ and all its nested nodes to a giant HTML string and inject it in the HTML template.
+    5. Use a recursive `to_html()` method to convert the _HTMLNode_ and all its nested nodes to a giant HTML string and inject it in the HTML template.
     6. Write the full HTML string to a file for that page in the **/public** directory.
 
 ### How We're going to build it
