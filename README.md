@@ -1,6 +1,6 @@
 # Static_Site_Generator
 
-![Static Site Generator Architecture](SSG_architure.png)
+![Static Site Generator Architecture](SSG_architecture.png)
 
 ## The flow of data through the full system is
 
@@ -12,11 +12,14 @@
 
 ## How the SSG Works
 
-The vast majority of our coding will happen in the src/ directory because almost all of the work is done in steps 2 and 3 above. Here's a rough outline of what the final program will do when it runs:
+> The vast majority of our coding will happen in the src/ directory because almost all of the work is done in steps 2 and 3 above.
+
+Here's a rough outline of what the final program will do when it runs:
 
 - Delete everything in the **/public** directory.
 - Copy any static assets (HTML template, images, CSS, etc.) to the **/public** directory.
 - Generate an HTML file for each Markdown file in the **/content** directory. For each Markdown file:
+
     1. Open the file and read its contents.
     2. Split the markdown into "blocks" (e.g. paragraphs, headings, lists, etc.).
     3. Convert each block into a tree of _HTMLNode_ objects. For inline elements (like bold text, links, etc.) we will convert:
@@ -27,4 +30,6 @@ The vast majority of our coding will happen in the src/ directory because almost
 
 ### How We're going to build it
 
-We're not going to build the program in the same order that it runs... that's often not the best way to build large projects. Instead, we'll tackle individual problems that we know we'll need to solve and use unit tests to make sure they work as expected. Then we'll put the pieces together into a working program as we get closer to the end.
+```
+result = HowTo("We're not going to build the program in the same order that it runs... that's often not the best way to build large projects. Instead, we'll tackle individual problems that we know we'll need to solve and use unit tests to make sure they work as expected. Then we'll put the pieces together into a working program as we get closer to the end.")
+```
