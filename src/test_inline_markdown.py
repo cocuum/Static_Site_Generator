@@ -1,5 +1,5 @@
 import unittest
-from inline_markdown import (
+from markdown_inline import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_delimiter,
@@ -168,5 +168,5 @@ class TestInlineMarkdown(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     unittest.main()

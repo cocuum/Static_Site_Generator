@@ -1,4 +1,5 @@
 import re
+
 from textnode import TextNode, TextType
 
 def text_to_textnodes(text):
@@ -112,4 +113,3 @@ def split_nodes_link(old_nodes):
             new_nodes.append(TextNode(text, TextType.TEXT))
 
     return new_nodes
-        
