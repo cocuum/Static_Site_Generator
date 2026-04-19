@@ -17,8 +17,15 @@ class BlockType(Enum):
     ULIST = "unordered_list"
     OLIST = "order_list"
 
+def extract_title(markdown):
+    blocks = markdown.strip().split("\n\n")
+    if not blocks[0].startswith("#"):
+        raise Exception("Missing Title: No h1")
+    title = heading_to_htmlnode(blocks[0])
+    return title.children[0].to_html()
+
 def markdown_to_blocks(markdown):
-    blocks =markdown.split("\n\n")
+    blocks = markdown.split("\n\n")
 
     stripped_blocks = []
 

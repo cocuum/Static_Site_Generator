@@ -4,6 +4,7 @@ from markdown_blocks import (
     block_to_block_type,
     markdown_to_blocks,
     markdown_to_html_node,
+    extract_title,
 )
 
 class TestMarkdownToHTML(unittest.TestCase):
@@ -168,6 +169,21 @@ this is paragraph text
             html,
             "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
         )
+
+    def test_extract_title(self):
+        md = """
+# Heading 1
+
+this is paragraph text
+
+## Heading 2
+"""
+        title = extract_title(md)
+        self.assertEqual(
+            title,
+            "Heading 1"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

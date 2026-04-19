@@ -1,49 +1,65 @@
-from shutil import copy, rmtree
-from os import mkdir, listdir
-from os.path import exists, join, isfile
+import shutil
+import os
+import os.path
 
+from markdown_blocks import markdown_to_html_node, extract_title
 
-SRC = "/Users/the_core/boots/cocuum/Static_Site_Generator/static"
-DST = "/Users/the_core/boots/cocuum/Static_Site_Generator/public"
+def generate_page(from_path, template_path, dest_path):
+    print(f"<== Generating Path: {from_path}\n\n to Destination: {dest_path}\n\n using {template_path} ==>\n")
+    
+    # access markdown to generate html and title from Source path
+    with open(from_path) as md:
+        markdown = md.read()
+        node = markdown_to_html_node(markdown)
+        html = node.to_html()
+        title = extract_title(markdown)
+
+    # access template to inject title and html
+    t = str("{{ Title }}")
+    h = str("{{ Content }}")
+
+    with open(template_path) as tmp:
+        template = tmp.read()
+        new_template = template.replace(t,title)
+        new_template = new_template.replace(h, html)
+    
+    #Create new template in Destination path
+    path = os.path.join(dest_path, "index.html")
+    with open(path, "w") as h:
+        h.write(new_template)
+
+    return f"New HTML Generated!!"
+
 
 
 def copy_source_to_destination(source, destination):
-    #print(f"<== Source: {source}\n to \nDestination: {destination} ==>\n")
+    print(f"<== Source: {source}\n to \nDestination: {destination} ==>\n")
     content = list_directory_content(source)
     for c in content:
-        src = join(source, c)
-        dst = join(destination, c)
+        src = os.path.join(source, c)
+        dst = os.path.join(destination, c)
 
-        if not isfile(src):
+        if not os.path.isfile(src):
             create_new_directory(dst)
             copy_source_to_destination(src, dst)
         else:
             copy_content(src, dst)
 
+    return f"Copied Static to Public!"
+
 def directory_check(destination):
-    #print("<== Existence Check ==>")
-    result = exists(destination)
-    #print(f"{"="*len(destination)}\nDestination existence: {result}\n{"="*len(destination)}")
+    result = os.path.exists(destination)
     return result
 
 def list_directory_content(location):
-    #print("<== Directory Content ==>")
-    result = listdir(location)
-    #print(f"{"="*len(location)}\nContent at {location}\n{"="*len(location)}")
-    #print(f'Directory Content: {result}')
+    result = os.listdir(location)
     return result
 
 def create_new_directory(destination):
-    #print("<== Create Directory ==>")
-    #print(f"{"="*len(destination)}\nCreating new directory: {destination}\n{"="*len(destination)}")
-    mkdir(destination)
+    os.mkdir(destination)
 
 def copy_content(source, destination):
-    #print("<== Coping ==>")
-    copy(source, destination)
-    #print(f"{"="*len(destination)}\nSource: {source}\nDestination: {destination}\n{"="*len(destination)}")
+    shutil.copy(source, destination)
 
 def remove_destination(destination):
-    #print("<== Remove Directory ==>")
-    rmtree(destination)
-    #print(f"{"="*len(destination)}\nRemoved destination: {destination}\n{"="*len(destination)}")
+    shutil.rmtree(destination)
