@@ -1,9 +1,19 @@
-from textnode import TextNode, TextType
+from static_public import *
+#from static_public import SRC, DST
 
 
 def main():
-    node = TextNode("The Silent Whale", TextType.LINK, "https://www.silentwhale.com")
-    print(node)
+    #check for destination, if present remove it
+    if directory_check(DST):
+        remove_destination(DST)
+    
+    # create new destination
+    create_new_directory(DST)
 
+    #copy source to destination
+    copy_source_to_destination(SRC, DST)
 
-main()
+    return f'Process Complete!!'
+
+result = main()
+print(result)
