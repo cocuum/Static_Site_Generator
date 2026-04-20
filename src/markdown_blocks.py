@@ -16,9 +16,10 @@ class BlockType(Enum):
     QUOTE = "quote"
     ULIST = "unordered_list"
     OLIST = "order_list"
+    
 
 def markdown_to_blocks(markdown):
-    blocks =markdown.split("\n\n")
+    blocks = markdown.split("\n\n")
 
     stripped_blocks = []
 
