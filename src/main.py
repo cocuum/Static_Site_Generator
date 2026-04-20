@@ -2,15 +2,17 @@ from static_public import (
     copy_source_to_destination,
     create_new_directory,
     directory_check,
-    generate_page,
     remove_destination,
 )
 
-SRC = "/Users/the_core/boots/cocuum/Static_Site_Generator/static"
-DST = "/Users/the_core/boots/cocuum/Static_Site_Generator/public"
+from content_generator import generate_pages_recursive
 
-fp = "/Users/the_core/boots/cocuum/Static_Site_Generator/content/index.md"
-tp = "/Users/the_core/boots/cocuum/Static_Site_Generator/template.html"
+
+SRC = "./static"
+DST = "./public"
+
+fp = "./content"
+tp = "./template.html"
 
 
 def main():
@@ -28,8 +30,9 @@ def main():
     copy_source_to_destination(SRC, DST)
 
     #generate template in destination
-    generated_template = generate_page(fp, tp, DST)
-    print(f"<=== {generated_template} ===>")
+    print("<=== Generate HTML pages ===>")
+    generated_templates = generate_pages_recursive(fp, tp, DST)
+    print(f"<=== {generated_templates} ===>")
 
     return f'Process Complete!!'
 
