@@ -1,9 +1,5 @@
-import os.path
-
-from static_public import (
-    list_directory_content,
-    create_new_directory,
-)
+import os
+from pathlib import Path
 
 from markdown_blocks import (
     markdown_to_html_node,
@@ -14,25 +10,25 @@ def extract_title(markdown):
         raise Exception("Missing Title: No h1")
     return blocks[0][2:]
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
-    content = list_directory_content(dir_path_content)
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
+    content = os.listdir(dir_path_content)
     print(f'{"="*10}\nContent: {content}\n{"="*10}')
-    print("\n")
     for c in content:
         src = os.path.join(dir_path_content, c)
         dst = os.path.join(dest_dir_path, c)
 
         if not os.path.isfile(src):
-            create_new_directory(dst)
-            generate_pages_recursive(src, template_path, dst)
+            print(f"{"="*10}\nCreating Directory: {dst}\n{"="*10}")
+            os.mkdir(dst)
+            generate_pages_recursive(src, template_path, dst, basepath)
         else:
             print(f"Generating new template at {dest_dir_path}")
-            generate = generate_page(src, template_path, dest_dir_path)
-            print(f"{c} - {generate}")
+            generate = generate_page(src, template_path, dst, basepath)
+            print(f"{generate[1]} ===> {generate[0]}")
 
     return f"Copied Content to Public!"
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"<== Generating Path: {from_path}\n\n to Destination: {dest_path}\n\n using {template_path} ==>\n")
     
     # access markdown to generate html and title from Source path
@@ -43,17 +39,17 @@ def generate_page(from_path, template_path, dest_path):
         title = extract_title(markdown)
 
     # access template to inject title and html
-    t = str("{{ Title }}")
-    h = str("{{ Content }}")
-
     with open(template_path) as tmp:
         template = tmp.read()
-        new_template = template.replace(t,title)
-        new_template = new_template.replace(h, html)
+        template = template.replace("{{ Title }}", title)
+        template = template.replace("{{ Content }}", html)
+        template = template.replace('href="/', f'href="{ basepath }')
+        template = template.replace('src="/', f'src="{ basepath }')
     
     #Create new template in Destination path
-    path = os.path.join(dest_path, "index.html")
+    path = Path(dest_path).with_suffix(".html")
+    print(f"path: {path}")
     with open(path, "w") as h:
-        h.write(new_template)
+        h.write(template)
 
-    return f"New HTML Generated!!"
+    return path , f"New HTML Generated!!"
