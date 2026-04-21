@@ -17,6 +17,7 @@ def main():
     basepath = default_path
     if len(sys.argv) > 1:
         basepath = sys.argv[1]
+        print(f"BASEPATH: {basepath}")
 
     #check for destination, if present remove it
     if os.path.exists(public_path):
@@ -29,7 +30,14 @@ def main():
 
     #generate template in destination
     print("<=== Generate HTML pages ===>")
-    generated_templates = generate_pages_recursive(content_path, template_path, public_path, basepath)
+
+    generated_templates = generate_pages_recursive(
+        content_path,
+        template_path,
+        public_path,
+        basepath,
+    )
+    
     print(f"<=== {generated_templates} ===>")
 
     return f'Process Complete!!'
